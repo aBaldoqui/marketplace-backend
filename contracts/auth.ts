@@ -5,7 +5,7 @@
  * file.
  */
 
-import Auth from 'App/Models/Auth'
+import User from 'App/Models/User'
 
 declare module '@ioc:Adonis/Addons/Auth' {
   /*
@@ -34,8 +34,8 @@ declare module '@ioc:Adonis/Addons/Auth' {
     |
     */
     user: {
-      implementation: LucidProviderContract<typeof Auth>
-      config: LucidProviderConfig<typeof Auth>
+      implementation: LucidProviderContract<typeof User>
+      config: LucidProviderConfig<typeof User>
     }
   }
 
@@ -57,20 +57,6 @@ declare module '@ioc:Adonis/Addons/Auth' {
   interface GuardsList {
     /*
     |--------------------------------------------------------------------------
-    | Web Guard
-    |--------------------------------------------------------------------------
-    |
-    | The web guard uses sessions for maintaining user login state. It uses
-    | the `user` provider for fetching user details.
-    |
-    */
-    web: {
-      implementation: SessionGuardContract<'user', 'web'>
-      config: SessionGuardConfig<'user'>
-      client: SessionClientContract<'user'>
-    }
-    /*
-    |--------------------------------------------------------------------------
     | OAT Guard
     |--------------------------------------------------------------------------
     |
@@ -82,20 +68,6 @@ declare module '@ioc:Adonis/Addons/Auth' {
       implementation: OATGuardContract<'user', 'api'>
       config: OATGuardConfig<'user'>
       client: OATClientContract<'user'>
-    }
-    /*
-    |--------------------------------------------------------------------------
-    | Basic Auth Guard
-    |--------------------------------------------------------------------------
-    |
-    | The basic guard uses basic auth for maintaining user login state. It uses
-    | the `user` provider for fetching user details.
-    |
-    */
-    basic: {
-      implementation: BasicAuthGuardContract<'user', 'basic'>
-      config: BasicAuthGuardConfig<'user'>
-      client: BasicAuthClientContract<'user'>
     }
   }
 }

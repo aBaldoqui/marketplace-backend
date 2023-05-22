@@ -20,7 +20,5 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post("/register/clientuser", "AuthController.registerclient")
-Route.post("/register/vendoruser", "AuthController.registervendor")
-Route.post("/login/clientuser", "AuthController.loginclient")
-Route.post("/login/vendoruser", "AuthController.loginvendor")
+Route.resource("/user/", "UsersController")
+Route.post("/login/", "AuthController.login")
