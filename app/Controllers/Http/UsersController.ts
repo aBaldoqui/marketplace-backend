@@ -9,7 +9,7 @@ export default class AuthController {
     }
 
     public async store({request}:HttpContextContract){
-
+        
         const user = await User.create({
             name: request.input('name'),
             email: request.input('email'),
@@ -24,8 +24,12 @@ export default class AuthController {
         return user
     }
 
-    public async update({request}:HttpContextContract){
+    public async update({auth,request, response}:HttpContextContract){
+        const {id} = await auth.use("api").authenticate()
+        if(id!= request.param("id")) return response.forbidden("")
+
         const user = await User.findOrFail(request.param('id'))
+        
         const body = request.only(['name', 'email', 'password'])
         
         await user.merge(body).save()
@@ -33,11 +37,10 @@ export default class AuthController {
         
     }
 
-    public async destroy({auth,request}:HttpContextContract){
+    public async destroy({auth,request, response}:HttpContextContract){
         const user = await User.findOrFail(request.param('id'))
-        if(user.id !== auth.user?.id){
-            return 'you cannot delete someone else\'s profile'
-        }
+        const {id} = await auth.use("api").authenticate()
+        if(id != request.param('id')) return response.forbidden()
         await user.delete()
         return user
     }

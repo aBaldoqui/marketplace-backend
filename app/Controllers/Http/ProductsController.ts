@@ -10,17 +10,18 @@ export default class ProductsController {
         return products
     }
 
-    public async store({auth,request}:HttpContextContract){
-
-        const user = await auth.use("api").authenticate()
-
+    public async store({auth,request,response}:HttpContextContract){
+        const {id} = await auth.use("api").authenticate()
         const store = await Store.findOrFail(request.input("store_id"))
-        
+        if(id!=store.user_id) return response.forbidden()
+
         const product = await Product.create({
             "name":request.input("name")
         })
 
         await product.related('store').associate(store)
+        
+        return product
     }
 
     public async show({request}:HttpContextContract){        
@@ -28,22 +29,24 @@ export default class ProductsController {
         return product
     }
 
-    public async update({request}:HttpContextContract){
+    public async update({auth, request, response}:HttpContextContract){
+        const {id} = await auth.use("api").authenticate()
         const product = await Product.findOrFail(request.param('id'))
-        
+        if(id!=product.store.user_id) return response.forbidden() 
+
         const body = request.only(['name'])
         
         await product.merge(body).save()
         return product
     }
 
-    public async destroy({auth,request}:HttpContextContract){
+    public async destroy({auth,request, response}:HttpContextContract){
+        const {id} = await auth.use("api").authenticate()
         const product = await Product.findOrFail(request.param('id'))
-        if(product.store.id !=auth.user?.id){
-            return "Não autorizado"
-        }else{
-            await product.delete()
-        }
+
+        if(product.store.id != id) return response.forbidden()
+
+        await product.delete()
 
         return product
     }
