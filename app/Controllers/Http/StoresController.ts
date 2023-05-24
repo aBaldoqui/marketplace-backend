@@ -1,9 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Store from 'App/Models/Store'
-import User from 'App/Models/User'
 
 export default class StoresController {
-    public async index({request}:HttpContextContract){
+    public async index({}:HttpContextContract){
         const store = await Store.all()
 
         return store
