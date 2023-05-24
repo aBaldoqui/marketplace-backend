@@ -5,9 +5,10 @@ import Store from 'App/Models/Store'
 export default class ProductsController {
 
     public async index({request}:HttpContextContract){
-        const products = await Product.all()
+        const store = await Store.findOrFail(request.qs().storeid)
 
-        return products
+        await store.load('product')
+        return store
     }
 
     public async store({auth,request,response}:HttpContextContract){

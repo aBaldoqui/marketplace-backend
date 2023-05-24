@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasOne, HasOne,belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
+import Product from './Product'
 
 export default class Store extends BaseModel {
   @column({ isPrimary: true })
@@ -9,11 +10,14 @@ export default class Store extends BaseModel {
   @column()
   public name: string
 
-  @column()
+  @column({serializeAs:null})
   public user_id:number
 
   @belongsTo(()=>User, {foreignKey:"user_id"})
   public user: BelongsTo<typeof User>
+
+  @hasMany(()=>Product, {foreignKey:"store_id"})
+  public product: HasMany<typeof Product>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
