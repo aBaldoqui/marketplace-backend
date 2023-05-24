@@ -21,4 +21,5 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.resource("/user/", "UsersController")
+Route.resource("/store/", "StoresController")
 Route.post("/login/", "AuthController.login")

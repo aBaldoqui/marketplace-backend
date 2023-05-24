@@ -1,6 +1,7 @@
 import Hash from '@ioc:Adonis/Core/Hash'
 import { DateTime } from 'luxon'
-import { BaseModel, column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, beforeSave, hasMany , HasMany} from '@ioc:Adonis/Lucid/Orm'
+import Store from './Store'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -10,7 +11,7 @@ export default class User extends BaseModel {
   public name: string
 
   @column()
-  public email: number
+  public email: string
 
   @column({"serializeAs":null})
   public password: string

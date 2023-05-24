@@ -33,9 +33,11 @@ export default class AuthController {
         
     }
 
-    public async destroy({request}:HttpContextContract){
+    public async destroy({auth,request}:HttpContextContract){
         const user = await User.findOrFail(request.param('id'))
-        
+        if(user.id !== auth.user?.id){
+            return 'you cannot delete someone else\'s profile'
+        }
         await user.delete()
         return user
     }
