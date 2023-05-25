@@ -25,7 +25,7 @@ export default class StoresController {
     public async show({request}:HttpContextContract){        
         const store = await Store.findOrFail(request.param('id'))
         store.load('product')
-        return store
+        return store.product
     }
 
     public async update({auth,request, response}:HttpContextContract){
