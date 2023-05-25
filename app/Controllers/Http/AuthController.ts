@@ -8,7 +8,7 @@ export default class AuthController {
         try {
             const token = await auth.use('api').attempt(email, password)
             
-            return {"user": auth.user, "token":token}
+            return {"user": auth.user, "token":token.token}
         } catch {
             return response.unauthorized('Invalid credentials')
         }
