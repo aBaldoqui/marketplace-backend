@@ -6,11 +6,17 @@ export default class Product extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public store_id: number
+
   @column({ isPrimary: true })
-  public name:string
+  public name: string
 
   @column()
-  public store_id:number
+  public price: number
+
+  @column()
+  public units: number
 
   @belongsTo(()=>Store, {foreignKey:"store_id"})
   public store: BelongsTo<typeof Store>
