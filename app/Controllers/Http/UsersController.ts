@@ -3,8 +3,9 @@ import User from 'App/Models/User'
 
 
 export default class AuthController {
-    public async index({}:HttpContextContract){
-        const user = await User.all()
+    public async index({auth}:HttpContextContract){
+        const user = auth.use("api").authenticate()
+        
         return user
     }
 
