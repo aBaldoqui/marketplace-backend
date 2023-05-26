@@ -5,6 +5,7 @@ import Store from 'App/Models/Store'
 export default class ProductsController {
 
     public async index({request}:HttpContextContract){
+        if(request.qs().storeid == "all") return Product.all()
         const store = await Store.findOrFail(request.qs().storeid)
 
         await store.load('product')
